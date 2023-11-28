@@ -17,10 +17,15 @@ Semantic segmentation is a computer vision task that involves classifying each p
 
 ## Files
 
-- `train.py`: Python script for training the UNet model.
-- `inference.py`: Python script for performing inference with the trained model.
+- `semantic-segmentation-with-unet-eda.ipynb`: This notebook focuses on the exploratory data analysis (EDA) aspect of a semantic segmentation task using the U-Net architecture. 
+- `semantic_segmentation_with_unet_modeling(baseline).ipynb`: This notebook is dedicated to modeling a U-Net architecture for semantic segmentation, serving as a baseline model. 
+- `semantic-segmentation-unet-advanced-approach.ipynb`: Notebook, which was created to implement a bit better approach in building and training a UNet-based model for semantic segmentation. Most of code featured both in `train.py` and `inference.py` was taken from this notebook.
+
+- `train.py`: Python script for training the UNet model. Most of the code was taken from `semantic-segmentation-unet-advanced-approach.ipynb`, as this notebook is the main solution for the task.
+- `inference.py`: Python script for performing inference with the trained model.  Most of the code was taken from `semantic-segmentation-unet-advanced-approach.ipynb`, as this notebook is the main solution for the task.
 - `semantic_segmentation_with_unet_modeling(baseline).ipynb`: Jupyter notebook containing the model architecture and training pipeline.
 - `submission.csv`: CSV file containing the inference results for submission.
+
 
 ## Requirements
 
@@ -46,7 +51,7 @@ pip install -r requirements.txt
 
 ## Results
 
-Check the `submission.csv` file for the model's inference results. You can visualize and analyze the results in the `semantic-segmentation-with-unet-eda.ipynb` notebook.
+Check the `submission.csv` file for the model's inference results. The result we got from `semantic-segmentation-unet-advanced-approach.ipynb` notebook, is the main solution for the task.
 
 ![image](https://github.com/geeeeenccc/WinstarsAI_task/assets/101811004/7bd6b514-1255-46fb-a47d-8c243d9864c0)
 
