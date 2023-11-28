@@ -234,8 +234,6 @@ model_history = model.fit(train_batches,
                           validation_data=validation_batches,
                           callbacks=[save_callback])
 
-model.load_weights(checkpoint_filepath)
-
 loss = model_history.history['loss']
 val_loss = model_history.history['val_loss']
 
