@@ -1,5 +1,6 @@
 """
-
+Most of the comment and code explanation you can see 
+in the main notebook 'semantic-segmentation-unet-advanced-approach.ipynb'
 """
 
 # inference.py
