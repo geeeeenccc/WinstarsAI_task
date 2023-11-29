@@ -29,7 +29,7 @@ def mask_to_rle(img, shape=(768, 768)) -> str:
 
 # UNet model
 class UNetModel:
-    def __init__(self, input_shape=(128, 128, 3), num_classes=NUM_CLASSES):
+    def __init__(self, input_shape=(128, 128, 3), num_classes=2):
         self.input_shape = input_shape
         self.num_classes = num_classes
         self._model = self._build_model()
@@ -96,12 +96,13 @@ class UNetModel:
 
         return tf.keras.Model(inputs=inputs, outputs=outputs)
 
-def load_test_image(tensor) -> np.ndarray:
-    path = tf.get_static_value(tensor).decode("utf-8")
-    input_image = cv2.imread(path)
-    input_image = cv2.resize(input_image, IMG_SHAPE, interpolation=cv2.INTER_AREA)
-    input_image = input_image / 255.0
-    return input_image
+# Commented for errors
+# def load_test_image(tensor) -> np.ndarray:
+#     path = tf.get_static_value(tensor).decode("utf-8")
+#     input_image = cv2.imread(path)
+#     input_image = cv2.resize(input_image, IMG_SHAPE, interpolation=cv2.INTER_AREA)
+#     input_image = input_image / 255.0
+#     return input_image
 
 # Load your trained model
 IMG_SHAPE = (256, 256)  # Adjust this to match the input shape of your model
@@ -109,20 +110,34 @@ TEST_DIR = '/kaggle/input/airbus-ship-detection/test_v2/'
 model = UNetModel(IMG_SHAPE + (3,)).model
 model.load_weights('checkpoints/model-checkpoint')
 
-# Load test data or submission file
+# Load the sample submission file
 submission = pd.read_csv("/kaggle/input/airbus-ship-detection/sample_submission_v2.csv")
 
+# Function to set model predictions for each row in the submission file
 def set_model_prediction(row: pd.Series) -> pd.Series:
-    image = load_test_image(f'{TEST_DIR}{row["ImageId"]}')
+    # Read and preprocess the image
+    image = cv2.imread(f'{TEST_DIR}{row["ImageId"]}')
+    image = cv2.resize(image, IMG_SHAPE, interpolation=cv2.INTER_AREA)
+    image = image / 255.0
+    
+    # Generate predictions using the model
     pred_mask = predict(image)
+    
+    # Convert the predicted mask to run-length encoding
     row['EncodedPixels'] = mask_to_rle(pred_mask)
+    
+    # If the predicted mask is empty, set the 'EncodedPixels' to NaN
     if row['EncodedPixels'] == '':
         row['EncodedPixels'] = np.nan
+    
     return row
 
-# Apply model predictions
-submission = submission.apply(lambda x: set_model_prediction(x), axis=1).set_index("ImageId")
+# Apply the set_model_prediction function to each row in the submission DataFrame
+submission = submission.apply(lambda x: set_model_prediction(x), axis=1)
 
-# Save submission file
+# Set the 'ImageId' column as the index
+submission = submission.set_index("ImageId")
+
+# Save the submission DataFrame to a CSV file
 submission.to_csv("submission.csv")
-print(submission)
+submission
