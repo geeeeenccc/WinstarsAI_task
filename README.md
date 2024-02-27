@@ -53,7 +53,9 @@ pip install -r requirements.txt
 
 Check the `submission.csv` file for the model's inference results. The result we got from `semantic-segmentation-unet-advanced-approach.ipynb` notebook, is the main solution for the task.
 
-![image](https://github.com/geeeeenccc/WinstarsAI_task/assets/101811004/7bd6b514-1255-46fb-a47d-8c243d9864c0)
+![image](https://github.com/geeeeenccc/WinstarsAI_task/assets/101811004/395742c0-4cc9-4488-9d83-fbd45e731609)
+
+
 
 
 ## Acknowledgments
